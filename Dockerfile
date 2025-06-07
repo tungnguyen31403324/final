@@ -6,15 +6,11 @@ FROM eclipse-temurin:17-jdk-jammy as deps
 
 WORKDIR /build
 
-# Copy mvnw với quyền thực thi và thư mục .mvn
 COPY --chmod=0755 mvnw mvnw
 COPY .mvn/ .mvn/
 COPY pom.xml pom.xml
 
-# Đảm bảo mvnw có quyền chạy
 RUN chmod +x mvnw
-
-# Tải dependencies và cache vào /root/.m2
 RUN ./mvnw dependency:go-offline -DskipTests
 
 ################################################################################
@@ -43,7 +39,6 @@ RUN java -Djarmode=layertools -jar target/app.jar extract --destination target/e
 # Stage 4: Final runtime image
 FROM eclipse-temurin:17-jre-jammy AS final
 
-# Tạo user không quyền admin để chạy app an toàn
 ARG UID=10001
 RUN adduser \
     --disabled-password \
@@ -58,7 +53,6 @@ USER appuser
 
 WORKDIR /app
 
-# Copy các lớp đã extract từ stage trước vào image runtime
 COPY --from=extract /build/target/extracted/dependencies/ ./
 COPY --from=extract /build/target/extracted/spring-boot-loader/ ./
 COPY --from=extract /build/target/extracted/snapshot-dependencies/ ./

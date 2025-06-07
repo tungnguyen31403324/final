@@ -90,12 +90,12 @@ public class CheckoutController {
             // + URLEncoder.encode(address, StandardCharsets.UTF_8) + "&email="
             // + URLEncoder.encode(email, StandardCharsets.UTF_8);
             // String cancelUrl = "http://localhost:8080/checkout?error=cancelled";
-            String returnUrl = "https://exxe.onrender.com/checkout/payos-return?orderCode=" + orderCode
+            String returnUrl = "https://loofah.io.vn/checkout/payos-return?orderCode=" + orderCode
                     + "&fullName=" + URLEncoder.encode(fullName, StandardCharsets.UTF_8)
                     + "&address=" + URLEncoder.encode(address, StandardCharsets.UTF_8)
                     + "&email=" + URLEncoder.encode(email, StandardCharsets.UTF_8);
 
-            String cancelUrl = "https://exxe.onrender.com/checkout?error=cancelled";
+            String cancelUrl = "https://loofah.io.vn/checkout?error=cancelled";
 
             String paymentUrl = payOSService.createPaymentUrl(
                     orderCode,

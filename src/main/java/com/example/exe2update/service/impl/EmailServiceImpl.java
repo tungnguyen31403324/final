@@ -44,7 +44,7 @@ public class EmailServiceImpl implements EmailService {
 
     @Override
     public void sendVerificationEmail(String toEmail, String token) {
-        String link = "https://exxe.onrender.com/verify?token=" + token;
+        String link = "https://loofah.io.vn/verify?token=" + token;
 
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(toEmail);
