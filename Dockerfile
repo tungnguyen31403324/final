@@ -9,14 +9,13 @@ WORKDIR /build
 # Copy mvnw với quyền thực thi và thư mục .mvn
 COPY --chmod=0755 mvnw mvnw
 COPY .mvn/ .mvn/
+COPY pom.xml pom.xml
 
 # Đảm bảo mvnw có quyền chạy
 RUN chmod +x mvnw
 
-# Sử dụng mount để lấy pom.xml và cache m2 repo để tải dependencies offline
-RUN --mount=type=bind,source=pom.xml,target=pom.xml \
-    --mount=type=cache,target=/root/.m2 \
-    ./mvnw dependency:go-offline -DskipTests
+# Tải dependencies và cache vào /root/.m2
+RUN ./mvnw dependency:go-offline -DskipTests
 
 ################################################################################
 # Stage 2: Build package
@@ -24,13 +23,12 @@ FROM deps as package
 
 WORKDIR /build
 
+COPY pom.xml pom.xml
 COPY ./src src/
 
 RUN chmod +x mvnw
 
-RUN --mount=type=bind,source=pom.xml,target=pom.xml \
-    --mount=type=cache,target=/root/.m2 \
-    ./mvnw package -DskipTests && \
+RUN ./mvnw package -DskipTests && \
     mv target/$(./mvnw help:evaluate -Dexpression=project.artifactId -q -DforceStdout)-$(./mvnw help:evaluate -Dexpression=project.version -q -DforceStdout).jar target/app.jar
 
 ################################################################################
