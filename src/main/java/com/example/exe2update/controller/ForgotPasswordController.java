@@ -26,7 +26,7 @@ public class ForgotPasswordController {
     @PostMapping("/forgot-password")
     public String forgotPassword(@RequestParam String email, Model model) throws MessagingException {
         String token = tokenService.createResetToken(email);
-        String resetLink = "https://exxe.onrender.com/change-password?token=" + token;
+        String resetLink = "https://loofah.io.vn/change-password?token=" + token;
 
         emailService.sendResetLink(email, resetLink);
         model.addAttribute("message", "Một liên kết đổi mật khẩu đã được gửi đến email.");

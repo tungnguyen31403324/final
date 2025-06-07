@@ -72,7 +72,7 @@ public class SecurityConfig {
                                                 .requestMatchers("/", "/home", "/assets/**", "/login", "/register",
                                                                 "/forgot-password", "/change-password",
                                                                 "/change-password/**",
-                                                                "/api/chat", "/verify/**", "/article/**")
+                                                                "/api/chat/**", "/verify/**", "/article/**")
                                                 .permitAll()
 
                                                 .requestMatchers(HttpMethod.GET, "/product-details/**").permitAll()
