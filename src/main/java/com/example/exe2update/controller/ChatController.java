@@ -2,7 +2,6 @@ package com.example.exe2update.controller;
 
 // ChatController.java
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.exe2update.dto.Request.ChatRequest;
