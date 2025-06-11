@@ -67,12 +67,14 @@ public class SecurityConfig {
                                                                 "/post-comment", "/dbcategory/*",
                                                                 "/api/chat", "/", "/login/oauth2/**",
                                                                 "/verify/**",
-                                                                "/api/chat/**"))
+                                                                "/api/chat/**",
+                                                                "/contact"))
                                 .authorizeHttpRequests(auth -> auth
                                                 .requestMatchers("/", "/home", "/assets/**", "/login", "/register",
                                                                 "/forgot-password", "/change-password",
                                                                 "/change-password/**",
-                                                                "/api/chat/**", "/verify/**", "/article/**")
+                                                                "/api/chat/**", "/verify/**", "/article/**",
+                                                                "/contact/**")
                                                 .permitAll()
 
                                                 .requestMatchers(HttpMethod.GET, "/product-details/**").permitAll()
