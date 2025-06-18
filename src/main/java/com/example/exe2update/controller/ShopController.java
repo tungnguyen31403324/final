@@ -22,7 +22,6 @@ import java.util.*;
 @Slf4j
 @Controller
 @RequestMapping("/shop")
-@PreAuthorize("hasAnyRole('ADMIN', 'USER')")
 public class ShopController {
 
     @Autowired
@@ -36,8 +35,8 @@ public class ShopController {
 
     @GetMapping
     public String shop(@RequestParam(defaultValue = "0") int page,
-                       @RequestParam(defaultValue = "8") int size,
-                       Model model) {
+            @RequestParam(defaultValue = "8") int size,
+            Model model) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String username = auth.getName();
 
@@ -61,11 +60,11 @@ public class ShopController {
 
     @GetMapping("/filter")
     public String filterProducts(@RequestParam(defaultValue = "") String search,
-                                 @RequestParam(required = false) List<Integer> category,
-                                 @RequestParam(required = false) List<String> discount,
-                                 @RequestParam(defaultValue = "0") int page,
-                                 @RequestParam(defaultValue = "8") int size,
-                                 Model model) {
+            @RequestParam(required = false) List<Integer> category,
+            @RequestParam(required = false) List<String> discount,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "8") int size,
+            Model model) {
 
         category = category == null ? List.of() : category;
         discount = discount == null ? List.of() : discount;
@@ -92,7 +91,8 @@ public class ShopController {
         return "shop :: productList";
     }
 
-    private void populateReviewData(List<Product> products, Map<Integer, Long> reviewCounts, Map<Integer, Double> avgRatings) {
+    private void populateReviewData(List<Product> products, Map<Integer, Long> reviewCounts,
+            Map<Integer, Double> avgRatings) {
         for (Product product : products) {
             Integer productId = product.getProductId();
             reviewCounts.put(productId, reviewService.getReviewCountByProductId(productId));
