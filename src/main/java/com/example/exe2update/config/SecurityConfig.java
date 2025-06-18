@@ -68,6 +68,7 @@ public class SecurityConfig {
                                                                 "/api/chat", "/", "/login/oauth2/**",
                                                                 "/verify/**",
                                                                 "/api/chat/**",
+                                                                "/shop/**",
                                                                 "/contact"))
                                 .authorizeHttpRequests(auth -> auth
                                                 .requestMatchers("/", "/home", "/assets/**", "/login", "/register",
