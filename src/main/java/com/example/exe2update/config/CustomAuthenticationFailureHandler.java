@@ -16,6 +16,7 @@ public class CustomAuthenticationFailureHandler extends SimpleUrlAuthenticationF
 
     @Autowired
     private UserRepository userRepository; // hoặc service check email
+    // c
 
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
