@@ -75,7 +75,7 @@ public class SecurityConfig {
                                                                 "/change-password/**",
                                                                 "/api/chat/**", "/verify/**", "/article/**",
                                                                 "/contact/**",
-                                                                "/shop")
+                                                                "/shop/**")
 
                                                 .permitAll()
 
@@ -96,6 +96,8 @@ public class SecurityConfig {
                                                 .requestMatchers(HttpMethod.POST, "/articles/add").hasRole("ADMIN")
                                                 .requestMatchers(HttpMethod.POST, "/articles/edit").hasRole("ADMIN")
                                                 .requestMatchers(HttpMethod.POST, "/articles/delete").hasRole("ADMIN")
+                                                .requestMatchers(HttpMethod.GET, "/shop").permitAll()
+                                                .requestMatchers(HttpMethod.POST, "/shop").permitAll()
 
                                                 // Các request khác phải login
                                                 .anyRequest().authenticated())
