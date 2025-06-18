@@ -76,7 +76,7 @@ public class SecurityConfig {
                                                                 "/change-password/**",
                                                                 "/api/chat/**", "/verify/**", "/article/**",
                                                                 "/contact/**",
-                                                                "/shop")
+                                                                "/shop/**")
 
                                                 .permitAll()
 
