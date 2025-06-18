@@ -74,7 +74,9 @@ public class SecurityConfig {
                                                                 "/forgot-password", "/change-password",
                                                                 "/change-password/**",
                                                                 "/api/chat/**", "/verify/**", "/article/**",
-                                                                "/contact/**")
+                                                                "/contact/**",
+                                                                "/shop")
+
                                                 .permitAll()
 
                                                 .requestMatchers(HttpMethod.GET, "/product-details/**").permitAll()
