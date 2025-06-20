@@ -7,5 +7,5 @@ public interface EmailService {
     void sendResetLink(String to, String resetLink) throws MessagingException;
 
     void sendVerificationEmail(String toEmail, String token);
-
+    //
 }
