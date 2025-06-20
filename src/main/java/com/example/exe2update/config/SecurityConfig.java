@@ -69,6 +69,7 @@ public class SecurityConfig {
                                                                 "/verify/**",
                                                                 "/api/chat/**",
                                                                 "/shop",
+                                                                "/articles/**",
                                                                 "/contact"))
                                 .authorizeHttpRequests(auth -> auth
                                                 .requestMatchers("/", "/home", "/assets/**", "/login", "/register",
@@ -76,7 +77,8 @@ public class SecurityConfig {
                                                                 "/change-password/**",
                                                                 "/api/chat/**", "/verify/**", "/article/**",
                                                                 "/contact/**",
-                                                                "/shop/**")
+                                                                "/shop/**",
+                                                                "/articles/**")
 
                                                 .permitAll()
 
