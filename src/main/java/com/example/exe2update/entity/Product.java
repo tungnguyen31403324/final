@@ -30,7 +30,7 @@ public class Product {
 
     private Integer stock;
 
-    @Column(length = 255)
+    @Column(length = 1000)
     private String imageUrl;
 
     @ManyToOne

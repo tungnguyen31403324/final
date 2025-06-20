@@ -1,300 +1,188 @@
-// package com.example.exe2update;
+package com.example.exe2update;
 
-// import com.example.exe2update.entity.Product;
-// import com.example.exe2update.entity.Role;
-// import com.example.exe2update.entity.User;
-// import com.example.exe2update.repository.ArticlesRepository;
-// import com.example.exe2update.entity.Article;
-// import com.example.exe2update.entity.Category;
-// import com.example.exe2update.repository.CategoryRepository;
-// import com.example.exe2update.repository.ProductRepository;
-// import com.example.exe2update.repository.RoleRepository;
-// import com.example.exe2update.repository.UserRepository;
-// import jakarta.annotation.PostConstruct;
-// import org.springframework.beans.factory.annotation.Autowired;
-// import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-// import org.springframework.stereotype.Component;
+import com.example.exe2update.entity.Category;
+import com.example.exe2update.entity.Product;
+import com.example.exe2update.repository.CategoryRepository;
+import com.example.exe2update.repository.ProductRepository;
+import jakarta.annotation.PostConstruct;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-// import java.math.BigDecimal;
-// import java.time.LocalDateTime;
-// import java.util.ArrayList;
-// import java.util.List;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
-// @Component
-// public class DataInitializer {
+@Component
+public class DataInitializer {
 
-// private final ArticlesRepository articlesRepository;
+        @Autowired
+        private CategoryRepository categoryRepository;
 
-// @Autowired
-// private UserRepository userRepository;
+        @Autowired
+        private ProductRepository productRepository;
 
-// @Autowired
-// private RoleRepository roleRepository;
+        /* ------------------------------------------------------------------- */
+        /* -------------------------- SEED DATA ---------------------------- */
+        /* ------------------------------------------------------------------- */
+        @PostConstruct
+        public void init() {
+                if (categoryRepository.count() == 0 && productRepository.count() == 0) {
 
-// @Autowired
-// private ProductRepository productRepository;
+                        /* 1️⃣ Trang trí & Phòng ngủ */
+                        Category decor = createCategory("Trang trí & Phòng ngủ",
+                                        "Đèn ngủ, túi thơm & phụ kiện phòng ngủ.");
+                        addProduct("Đèn ngủ xơ mướp",
+                                        "Đèn ngủ làm từ xơ mướp thân thiện môi trường.",
+                                        bd("350000"), 50,
+                                        "https://example.com/images/den-ngu.jpg",
+                                        decor, true, null);
 
-// @Autowired
-// private CategoryRepository categoryRepository;
+                        addProduct("Túi thơm xơ mướp (hương cafe, nhài, lavender)",
+                                        "Túi thơm xơ mướp tự nhiên với ba hương lựa chọn.",
+                                        bd("130000"), 80,
+                                        "https://scontent.fhan14-4.fna.fbcdn.net/v/t1.15752-9/508136008_706706761944659_2252930385187393822_n.jpg?stp=dst-jpg_s2048x2048_tt6&_nc_cat=102&ccb=1-7&_nc_sid=9f807c&_nc_ohc=xam9uAEX490Q7kNvwEVJyit&_nc_oc=AdnmRDkmU7wTyGpBScFCv0aRsqtsqYfLEz8FtoY0K24nxyuK8nBZt0PuJqGQK6spyzuMFoCjJ4rC-s8Cj4b4yFc6&_nc_zt=23&_nc_ht=scontent.fhan14-4.fna&oh=03_Q7cD2gGdSCvTy90lAwcfOatkyKIrZ_tKdvfC-LT5bU2-OHetHg&oe=687C4E95",
+                                        decor, true, null);
 
-// private final BCryptPasswordEncoder passwordEncoder = new
-// BCryptPasswordEncoder();
+                        addProduct("Vỏ túi thơm xơ mướp",
+                                        "Vỏ thay thế cho túi thơm xơ mướp.",
+                                        bd("100000"), 60,
+                                        "https://scontent.fhan14-5.fna.fbcdn.net/v/t1.15752-9/505482023_735227602301303_4470181688768648772_n.jpg?stp=dst-jpg_s2048x2048_tt6&_nc_cat=104&ccb=1-7&_nc_sid=9f807c&_nc_ohc=fehS9URXBFkQ7kNvwGQ5I6R&_nc_oc=AdnUbmYkVUhEsdxsUxb3vuP0lwjMDAasHJGoCLP2bvcPSJsbY2kFZnjZ7BBvZmQQcr-c865KwC8jPoxa7vKvfOuk&_nc_zt=23&_nc_ht=scontent.fhan14-5.fna&oh=03_Q7cD2gGqmJA8fvNs33MH0EOb_RdustTevMoE6ml7EBo_KZ4ykg&oe=687C3566",
+                                        decor, true, null);
 
-// DataInitializer(ArticlesRepository articlesRepository) {
-// this.articlesRepository = articlesRepository;
-// }
+                        addProduct("Lõi thay túi thơm (hương cafe, nhài, lavender)",
+                                        "Lõi hương thay thế cho túi thơm xơ mướp.",
+                                        bd("30000"), 120,
+                                        "https://scontent.fhan14-1.fna.fbcdn.net/v/t1.15752-9/506071237_719817770984154_4341336644008762481_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=9f807c&_nc_ohc=P8mkKWRlgNsQ7kNvwEAqRfz&_nc_oc=Adl1Sa1w1h6pspK0iqKeUqrLaadJOjYjwoIi04-C5Vx2_Qd2WFnV0xOJZO_zXzTjWKiLGvLrOkkYoewTQf5kE3L9&_nc_zt=23&_nc_ht=scontent.fhan14-1.fna&oh=03_Q7cD2gHxP8cPgt-Vbc-oN5JGHbLjuAiThDjpHSbaNa5M--suUw&oe=687C3089",
+                                        decor, true, null);
 
-// @PostConstruct
-// public void init() {
-// createAdminIfNotExist();
-// createUserIfNotExist();
-// createCategoryAndProductsIfNotExist();
-// createArticlesIfNotExist();
-// }
+                        addProduct("Combo Good night (1 đèn ngủ + 1 túi thơm)",
+                                        "Combo thư giãn buổi tối: đèn ngủ & túi thơm.",
+                                        bd("350000"), 30,
+                                        "https://example.com/images/combo-good-night.jpg",
+                                        decor, true, null);
 
-// private void createAdminIfNotExist() {
-// if (userRepository.findByEmailNormalized("admin@example.com").isEmpty()
-// && userRepository.findByUsername("admin").isEmpty()) {
-// Role adminRole = roleRepository.findByRoleName("ADMIN");
-// if (adminRole == null) {
-// adminRole = new Role();
-// adminRole.setRoleName("ADMIN");
-// roleRepository.save(adminRole);
-// }
+                        /* 2️⃣ Vệ sinh cá nhân */
+                        Category hygiene = createCategory("Vệ sinh cá nhân",
+                                        "Bông tắm, bàn chải tre & combo chăm sóc cá nhân.");
+                        addProduct("Bông tắm xơ mướp szM",
+                                        "Bông tắm size M tẩy tế bào chết dịu nhẹ.",
+                                        bd("35000"), 200,
+                                        "https://scontent.fhan14-4.fna.fbcdn.net/v/t1.15752-9/506757152_708503541782427_1570244684195894279_n.jpg?stp=dst-jpg_s2048x2048_tt6&_nc_cat=102&ccb=1-7&_nc_sid=9f807c&_nc_ohc=gs8eIVMP-_YQ7kNvwEL8DgM&_nc_oc=Adntu5hz1rO4ottuGey1WdS5ca8Q77NOrbJy0GhRbLItFHNFaW5aCdmUVCyXopRxlr0PbzgTnhFle-pjLSxvqsvA&_nc_zt=23&_nc_ht=scontent.fhan14-4.fna&oh=03_Q7cD2gHsUAE8HQBk4UMkXNjp7N0vDULy5-qiRIqHSjiQKay_gQ&oe=687C3D00",
+                                        hygiene, true, null);
 
-// User admin = new User();
-// admin.setFullName("Administrator");
-// admin.setEmail("admin@example.com");
-// admin.setUsername("admin");
-// admin.setPasswordHash(passwordEncoder.encode("admin123"));
-// admin.setPhone("0123456789");
-// admin.setAddress("Hanoi, Vietnam");
-// admin.setRole(adminRole);
-// admin.setCreatedAt(LocalDateTime.now());
-// admin.setStatus(true);
+                        addProduct("Bông tắm xơ mướp szL",
+                                        "Bông tắm size L tạo bọt nhiều hơn.",
+                                        bd("45000"), 150,
+                                        "https://scontent.fhan14-4.fna.fbcdn.net/v/t1.15752-9/506662693_2058950127928570_6535844898285532893_n.jpg?stp=dst-jpg_s2048x2048_tt6&_nc_cat=107&ccb=1-7&_nc_sid=9f807c&_nc_ohc=j8Dpbu0VI3kQ7kNvwHTroiw&_nc_oc=AdmC44RuqEp6O4UUMYLwq5TZldNJIDu_lHTMWdxPzk3hhm1zDKcZrW3UvTWRr_UEGyk8eBavth6RhKvchX6AA76t&_nc_zt=23&_nc_ht=scontent.fhan14-4.fna&oh=03_Q7cD2gGM5FR2MBtGPptvDFti3vE0_xY6u-2RTXf3TO77m-ZgNA&oe=687C441A",
+                                        hygiene, true, null);
 
-// userRepository.save(admin);
-// System.out.println("Created admin user.");
-// } else {
-// System.out.println("Admin user already exists.");
-// }
-// }
+                        addProduct("Bộ bàn chải tre",
+                                        "Bàn chải thân tre tự nhiên.",
+                                        bd("50000"), 200,
+                                        "https://scontent.fhan14-5.fna.fbcdn.net/v/t1.15752-9/496511205_2051819041972932_2366852738807257219_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=9f807c&_nc_ohc=lvHzO1k0JHwQ7kNvwEG4IPn&_nc_oc=AdnuyP_qknhUDTVgihd1FbRpDiaraGctekMSw0MwsutspONQSff8EeyDZwb6aPPdLQ4RqXk-F9hbnuvrgqLjglqt&_nc_zt=23&_nc_ht=scontent.fhan14-5.fna&oh=03_Q7cD2gGqS5xwOf4i4sPV48H-xGscpekFmKPBmVPmVPUPaskPaA&oe=687C38E3",
+                                        hygiene, true, null);
 
-// private void createUserIfNotExist() {
-// if (userRepository.findByEmailNormalized("user@example.com").isEmpty()
-// && userRepository.findByUsername("user").isEmpty()) {
-// Role userRole = roleRepository.findByRoleName("USER");
-// if (userRole == null) {
-// userRole = new Role();
-// userRole.setRoleName("USER");
-// roleRepository.save(userRole);
-// }
+                        addProduct("Combo Du lịch 1 (1 bông tắm szM + 1 bộ bàn chải tre)",
+                                        "Combo gọn nhẹ cho chuyến đi.",
+                                        bd("70000"), 100,
+                                        "https://example.com/images/combo-dulich-1.jpg",
+                                        hygiene, true, null);
 
-// User user = new User();
-// user.setFullName("Normal User");
-// user.setEmail("user@example.com");
-// user.setUsername("user");
-// user.setPasswordHash(passwordEncoder.encode("user123"));
-// user.setPhone("0987654321");
-// user.setAddress("Hanoi, Vietnam");
-// user.setRole(userRole);
-// user.setCreatedAt(LocalDateTime.now());
-// user.setStatus(true);
+                        addProduct("Combo Tiết kiệm (2 bông tắm szM+L)",
+                                        "Combo 2 bông tắm (M & L) tiết kiệm.",
+                                        bd("70000"), 80,
+                                        "https://example.com/images/combo-tiet-kiem-bong.jpg",
+                                        hygiene, true, null);
 
-// userRepository.save(user);
-// System.out.println("Created normal user.");
-// } else {
-// System.out.println("Normal user already exists.");
-// }
-// }
+                        /* 3️⃣ Phụ kiện & Túi đựng */
+                        Category accessories = createCategory("Phụ kiện & Túi đựng",
+                                        "Túi đựng xà bông & combo tiện lợi.");
+                        addProduct("Túi xơ mướp đựng xà bông",
+                                        "Túi lưới tạo bọt & bảo quản xà bông.",
+                                        bd("40000"), 120,
+                                        "https://scontent.fhan14-5.fna.fbcdn.net/v/t1.15752-9/505174994_1051720236478038_6625428580868631846_n.jpg?stp=dst-jpg_s2048x2048_tt6&_nc_cat=106&ccb=1-7&_nc_sid=9f807c&_nc_ohc=iQJIFt4DIrcQ7kNvwGiPNqy&_nc_oc=AdkXPY57rmQU__h-1aNqTEwnFgT4vwTMzRxZcznecinLaAG3rlVTslgdXp40v9I_H5m-ZASRKgp2yLCqOKU9ETZv&_nc_zt=23&_nc_ht=scontent.fhan14-5.fna&oh=03_Q7cD2gFVUVFliM_rwXZcnOkq64cqdwrnIu3z7467hHmw8yuwVg&oe=687C5677",
+                                        accessories, true, null);
 
-// private void createCategoryAndProductsIfNotExist() {
-// if (categoryRepository.count() == 0) {
-// Category cat1 = createCategory("Natural Loofah", "Products made from raw
-// natural loofah");
-// Category cat2 = createCategory("Loofah Skincare", "Loofah products used in
-// skincare and spa treatments");
-// Category cat3 = createCategory("Loofah Kitchen", "Loofah-based cleaning tools
-// for kitchens");
-// Category cat4 = createCategory("Loofah Handicrafts", "Decorative handmade
-// items from loofah");
-// Category cat5 = createCategory("Loofah Gift Sets", "Gift sets made from
-// loofah-based products");
+                        addProduct("Combo Du lịch 2 (1 túi đựng xà bông + 1 bộ bàn chải tre)",
+                                        "Combo tiện dụng cho du lịch.",
+                                        bd("75000"), 90,
+                                        "https://example.com/images/combo-dulich-2.jpg",
+                                        accessories, true, null);
 
-// if (productRepository.count() == 0) {
-// addProduct("Dried Natural Loofah", "Sun-dried natural loofah, chemical-free",
-// new BigDecimal("10000"),
-// 100,
-// "https://api.nongthonviet.com.vn/media/2022/04/08/624fb8e76c30a919cfde450b_5dd707843b261e9f3b18458dbb56d211_high.jpg",
-// cat1, true, 0.10);
-// addProduct("Loofah Shower Pad", "Perfect for exfoliating during shower", new
-// BigDecimal("15000"), 80,
-// "https://images2.thanhnien.vn/thumb_w/640/528068263637045248/2023/10/2/img4200-16962386086551668552859.jpg",
-// cat2, true, 0.05);
-// addProduct("Loofah Kitchen Sponge", "Eco-friendly dish sponge made from
-// loofah",
-// new BigDecimal("12000"), 150,
-// "https://laxanh.net/wp-content/uploads/2020/06/xm4.jpg", cat3, true, 0.08);
-// addProduct("Loofah Bath Ball", "Soft bath ball for gentle skin cleansing",
-// new BigDecimal("17000"), 60,
-// "http://bizweb.dktcdn.net/100/019/496/files/tinh-dau-ha-na-96a39adc-7c0b-4570-a506-8ddde9914151.jpg?v=1572256038636",
-// cat2, true, null);
-// addProduct("Loofah Scrubber", "Multi-purpose loofah scrubber for kitchen or
-// bathroom",
-// new BigDecimal("11000"), 70,
-// "https://images2.thanhnien.vn/528068263637045248/2023/10/2/img4192-1696238607422354143989.jpg",
-// cat3, true, 0.12);
-// addProduct("Loofah Flower Craft", "Decorative handmade flower from loofah",
-// new BigDecimal("25000"), 40,
-// "https://xomuopkb.vn/Uploads/EDE87413BFF92B82FF9F8CF1AD8FBB02/files/z5347516761624_8e5a83a826981febe94f68909708a485.jpg",
-// cat4, true, 0.15);
-// addProduct("Loofah Wall Art", "Eco-friendly wall decoration made with
-// loofah", new BigDecimal("30000"),
-// 25,
-// "https://www.hieutruong.com/uploads/thu-vien/2023/11/03/image-20231103213654-4.jpeg",
-// cat4,
-// true, null);
-// addProduct("Mini Loofah Gift Set", "A small gift set of 3 loofah items", new
-// BigDecimal("28000"), 90,
-// "http://static1.bestie.vn/Mlog/ImageContent/201707/bestie-cong-dung-cua-xo-muop-1-20170717133525.jpg",
-// cat5, true, 0.10);
-// addProduct("Spa Loofah Gift Box", "Premium gift box with spa-grade loofah
-// products",
-// new BigDecimal("45000"), 30,
-// "https://down-vn.img.susercontent.com/file/5fe738e51ba0f528fd68d344b4a63063",
-// cat5, true, null);
-// addProduct("Premium Loofah Sponge", "Long-lasting loofah sponge for daily
-// bath use",
-// new BigDecimal("18000"), 100,
-// "https://changreenchoice.com/wp-content/uploads/2024/06/Natural-Bath-Loofah-Sponge-With-Custom-Design-In-Vietnam-1-e1718809115282.jpeg",
-// cat1, true, 0.07);
+                        addProduct("Combo Tiết kiệm (1 bông tắm szM + 1 túi đựng xà bông)",
+                                        "Combo tiết kiệm routine tắm gội.",
+                                        bd("65000"), 70,
+                                        "https://example.com/images/combo-tiet-kiem.jpg",
+                                        accessories, true, null);
 
-// System.out.println("Default products created.");
-// } else {
-// System.out.println("Products already exist.");
-// }
-// } else {
-// System.out.println("Categories already exist.");
-// }
-// }
+                        /* 4️⃣ Trang phục & Đồ dùng */
+                        Category apparel = createCategory("Trang phục & Đồ dùng",
+                                        "Dép & khăn lau làm từ xơ mướp.");
+                        addProduct("Dép xơ mướp",
+                                        "Dép đi trong nhà thoáng khí.",
+                                        bd("160000"), 110,
+                                        "https://scontent.fhan14-1.fna.fbcdn.net/v/t1.15752-9/505789461_760227749797980_4847634620099293182_n.jpg?stp=dst-jpg_s2048x2048_tt6&_nc_cat=105&ccb=1-7&_nc_sid=9f807c&_nc_ohc=Uj9MN_AfM4QQ7kNvwFACTAs&_nc_oc=AdnLrvAzo_JshaacNnA8R3mRbO94IfUM5cy0Cb8gRyLraGpqS3zDly5iS_Q_Trz4JZeyFZ2NyPHuaE0Mbuytf0au&_nc_zt=23&_nc_ht=scontent.fhan14-1.fna&oh=03_Q7cD2gGzybX5DaUXbQU9EaFy8c_JQ7_vgR9q1n079XiQC-y55g&oe=687C4FBA",
+                                        apparel, true, null);
 
-// private Category createCategory(String name, String description) {
-// Category category = new Category();
-// category.setName(name);
-// category.setDescription(description);
-// return categoryRepository.save(category);
-// }
+                        addProduct("Khăn lau xơ mướp (combo 10 chiếc)",
+                                        "Khăn lau đa năng, thân thiện môi trường.",
+                                        bd("40000"), 300,
+                                        "https://scontent.fhan14-2.fna.fbcdn.net/v/t1.15752-9/496515234_1093699569349106_6923077003837727925_n.jpg?stp=dst-jpg_s2048x2048_tt6&_nc_cat=108&ccb=1-7&_nc_sid=9f807c&_nc_ohc=JKQBr10a7jUQ7kNvwFO1uRW&_nc_oc=Admkm4cTsU273zF-CUSbumZeXl73UPzbjP1xoGMtDZzVOkC5X1-H8H3SClZO_fDIZ-mLNP91uTnLU1x7Yj9I0Zw4&_nc_zt=23&_nc_ht=scontent.fhan14-2.fna&oh=03_Q7cD2gFeVAv38QTgqEOy3UAjRjY5WBrdriC9QnvaVqApzqdLpQ&oe=687C4C16",
+                                        apparel, true, null);
 
-// private void addProduct(String name, String description, BigDecimal price,
-// int stock, String imageUrl,
-// Category category, boolean isActive, Double discount) {
-// Product product = new Product();
-// product.setName(name);
-// product.setDescription(description);
-// product.setPrice(price);
-// product.setStock(stock);
-// product.setImageUrl(imageUrl);
-// product.setCategory(category);
-// product.setCreatedAt(LocalDateTime.now());
-// product.setIsActive(isActive);
-// product.setDiscount(discount);
-// productRepository.save(product);
-// System.out.println("Added product: " + name);
-// }
+                        /* 5️⃣ Đồ dùng nhỏ & Tiện ích */
+                        Category utility = createCategory("Đồ dùng nhỏ & Tiện ích",
+                                        "Móc khóa và lót cốc xơ mướp.");
+                        addProduct("Móc khóa xơ mướp",
+                                        "Móc khóa mini làm từ xơ mướp.",
+                                        bd("25000"), 400,
+                                        "https://scontent.fhan14-2.fna.fbcdn.net/v/t1.15752-9/508158602_4110591415894834_38734295005911628_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=9f807c&_nc_ohc=pHL6pdGx608Q7kNvwGwtAHP&_nc_oc=AdkV3s8OyHf9U25amWjEf8ulwYlC3RTNhX68vRCLHGMSL1yBO3Qkf3mvktN9qdyEaAoK3SVWIFJ321Ex72zupf_2&_nc_zt=23&_nc_ht=scontent.fhan14-2.fna&oh=03_Q7cD2gEGiiKw4Mz2E8-Csx2z3nWvHG6sVJkb5nJEbOA_boBG8A&oe=687C3586",
+                                        utility, true, null);
 
-// private void createArticlesIfNotExist() {
-// if (articlesRepository.count() == 0) {
-// List<Article> articles = new ArrayList<>();
+                        addProduct("Lót cốc xơ mướp",
+                                        "Lót cốc chống nóng, thấm hút tốt.",
+                                        bd("25000"), 350,
+                                        "https://example.com/images/lot-coc.jpg",
+                                        utility, true, null);
 
-// articles.add(createArticle(
-// "The Amazing Benefits of Natural Loofah for Your Skin",
-// "Natural loofah is a fantastic exfoliating tool derived from the fibrous
-// skeleton of the loofah plant. It helps remove dead skin cells gently, leaving
-// your skin smooth and refreshed. Unlike synthetic sponges, natural loofahs are
-// biodegradable and eco-friendly. Using a loofah regularly can stimulate blood
-// circulation, improve skin texture, and prevent clogged pores. Its natural
-// texture is perfect for a relaxing bath or shower routine that enhances your
-// skin's health without harsh chemicals.",
-// 1,
-// "Explore how natural loofah can improve your skincare routine by exfoliating
-// and revitalizing your skin naturally.",
-// "https://suckhoedoisong.qltns.mediacdn.vn/324455921873985536/2022/4/25/trong-muop-huong-11-1650895342271997058777.jpg"));
+                        System.out.println("🌱 Seed 5 category & sản phẩm xong!");
+                } else {
+                        System.out.println("🌱 Dữ liệu đã tồn tại, bỏ qua seeding.");
+                }
+        }
 
-// articles.add(createArticle(
-// "Natural Loofah in Kitchen Cleaning: Eco-Friendly and Effective",
-// "Natural loofah sponges are not just for skincare — they are also excellent
-// for cleaning in the kitchen. Their coarse fibers make them perfect for
-// scrubbing pots, pans, and dishes without scratching surfaces. Because they
-// are biodegradable, natural loofah sponges reduce plastic waste compared to
-// synthetic kitchen sponges. Moreover, they resist bacteria buildup better than
-// traditional sponges, promoting a healthier kitchen environment. Incorporating
-// loofah cleaning tools into your daily routine supports sustainability and
-// effective hygiene.",
-// 2,
-// "Discover the many ways natural loofah can be used in the kitchen as a
-// sustainable and hygienic cleaning tool.",
-// "https://api.nongthonviet.com.vn/media/2022/04/08/624fb8e76c30a919cfde450b_5dd707843b261e9f3b18458dbb56d211_high.jpg"));
+        /* ------------------------------------------------------------------- */
+        /* --------------------------- HELPERS ----------------------------- */
+        /* ------------------------------------------------------------------- */
 
-// articles.add(createArticle(
-// "Creative DIY Loofah Crafts to Beautify Your Home",
-// "Loofah is an incredibly versatile material for creative crafts and home
-// decor. Its unique texture and natural appearance allow for beautiful handmade
-// flowers, wall hangings, and decorative objects. Crafting with loofah is not
-// only fun but also environmentally friendly, as it uses natural, renewable
-// resources. Whether you want to create personalized gifts or add a rustic
-// charm to your living space, loofah crafts provide endless possibilities. Dive
-// into easy DIY projects that bring warmth and sustainability into your home.",
-// 1,
-// "Learn how to make beautiful and eco-friendly handmade decorations using
-// natural loofah with these easy DIY craft ideas.",
-// "https://images2.thanhnien.vn/thumb_w/640/528068263637045248/2023/10/2/img4200-16962386086551668552859.jpg"));
+        /** Tạo Category và lưu DB. */
+        private Category createCategory(String name, String desc) {
+                Category cat = new Category();
+                cat.setName(name);
+                cat.setDescription(desc);
+                return categoryRepository.save(cat);
+        }
 
-// articles.add(createArticle(
-// "How to Choose the Right Loofah for Your Skin Type",
-// "Choosing the right loofah can make a significant difference in your skincare
-// routine. Natural loofahs vary in texture and coarseness, so it's important to
-// select one suited to your skin type. For sensitive skin, softer, smaller
-// loofahs are ideal, providing gentle exfoliation without irritation. For
-// tougher or oily skin, coarser loofahs help remove excess oils and dead cells
-// effectively. Regular use of a properly chosen loofah boosts skin renewal,
-// promotes circulation, and leaves your skin glowing. Remember to replace your
-// loofah regularly to maintain hygiene.",
-// 2,
-// "Tips and guidelines to help you select the perfect natural loofah for your
-// skin’s unique needs and enjoy the full benefits.",
-// "https://suckhoedoisong.qltns.mediacdn.vn/thumb_w/1200/324455921873985536/2021/8/1/muop-16277845641761514843377-0-0-312-500-crop-16277845755441950000950.jpg"));
+        /** Thêm Product với đủ field. */
+        private void addProduct(String name, String description, BigDecimal price,
+                        int stock, String imageUrl, Category category,
+                        boolean active, Double discount) {
 
-// articles.add(createArticle(
-// "Loofah Gift Sets: Thoughtful, Eco-Friendly Presents for Any Occasion",
-// "Loofah-based gift sets make excellent presents for eco-conscious friends and
-// family. These sets often include natural loofah sponges, bath accessories,
-// and skincare products that promote relaxation and natural wellness. Giving a
-// loofah gift set shows thoughtfulness towards both the recipient and the
-// environment. Perfect for birthdays, holidays, or special events, these gift
-// sets combine beauty, practicality, and sustainability. Explore various loofah
-// gift collections designed to pamper and delight your loved ones while
-// supporting green living.",
-// 1,
-// "Explore the beauty and benefits of loofah gift sets, perfect for those who
-// value natural, eco-friendly, and practical gifts.",
-// "https://trungtamthuoc.com/images/others/xo-muop-6-6562.jpg"));
+                Product p = new Product();
+                p.setName(name);
+                p.setDescription(description);
+                p.setPrice(price);
+                p.setStock(stock);
+                p.setImageUrl(imageUrl);
+                p.setCategory(category);
+                p.setCreatedAt(LocalDateTime.now());
+                p.setIsActive(active);
+                p.setDiscount(discount); // null nếu không khuyến mãi
+                productRepository.save(p);
+                System.out.println("   ➜ Added: " + name);
+        }
 
-// articlesRepository.saveAll(articles);
-// System.out.println("Default articles created.");
-// } else {
-// System.out.println("Articles already exist.");
-// }
-// }
-
-// private Article createArticle(String title, String content, Integer userId,
-// String description, String imageUrl) {
-// Article article = new Article();
-// article.setTitle(title);
-// article.setContent(content);
-// article.setUserId(userId);
-// article.setCreatedAt(LocalDateTime.now());
-// article.setDescription(description);
-// article.setImageUrl(imageUrl);
-// return article;
-// }
-// }
+        /* Chuyển chuỗi số nguyên sang BigDecimal. */
+        private BigDecimal bd(String number) {
+                return new BigDecimal(number);
+        }
+}
