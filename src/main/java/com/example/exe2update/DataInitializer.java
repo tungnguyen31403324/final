@@ -161,14 +161,14 @@ public class DataInitializer {
         }
 
         private void seedUserAccounts() {
-                Role adminRole = roleRepository.findByRoleName("ADMIN");
+                Role adminRole = roleRepository.findByRoleName("Admin");
                 if (adminRole == null) {
-                        adminRole = roleRepository.save(createRole("ADMIN"));
+                        adminRole = roleRepository.save(createRole("Admin"));
                 }
 
-                Role userRole = roleRepository.findByRoleName("USER");
+                Role userRole = roleRepository.findByRoleName("User");
                 if (userRole == null) {
-                        userRole = roleRepository.save(createRole("USER"));
+                        userRole = roleRepository.save(createRole("User"));
                 }
 
                 createUser("Admin User", "admin@example.com", "admin123", "admin", adminRole);
