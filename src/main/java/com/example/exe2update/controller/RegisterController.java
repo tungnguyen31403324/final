@@ -120,13 +120,13 @@ public class RegisterController {
         user.setUsername(verificationToken.getEmail().split("@")[0]);
 
         // Lấy role từ DB
-        Optional<Role> userRoleOpt = roleRepository.findById(2);
-        if (userRoleOpt.isEmpty()) {
+        Role userRole = roleRepository.findByRoleName("USER");
+        if (userRole == null) {
             redirectAttributes.addFlashAttribute("registerError", "Không tìm thấy role USER.");
             return "redirect:/login";
         }
 
-        user.setRole(userRoleOpt.get());
+        user.setRole(userRole);
 
         userRepository.save(user);
         tokenRepository.delete(verificationToken);
