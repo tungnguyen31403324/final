@@ -13,7 +13,9 @@ import java.util.List;
 public class OrderWithDetailsDTO {
     private Integer orderId;
     private String fullName;
+
     private BigDecimal totalAmount;
     private LocalDateTime orderDate;
     private List<ProductInOrderDTO> products; // dùng DTO mới
+    private String address;
 }

@@ -82,7 +82,9 @@ public class DashboardServiceImpl implements DashboardService {
                     order.getFullName(),
                     order.getTotalAmount(),
                     order.getOrderDate(),
-                    products);
+                    products,
+                    order.getAddress() // ✅ thêm địa chỉ tại đây
+            );
         }).toList();
     }
 
