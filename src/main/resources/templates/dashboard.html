@@ -485,9 +485,10 @@
                             </div>
                         </div>
 
-                        <h3>🧾 Danh sách đơn hàng và sản phẩm đã mua</h3>
-                        <table class="table table-bordered">
-                            <thead>
+                        <h3 class="mt-4 mb-3">🧾 Danh sách đơn hàng và sản phẩm đã mua</h3>
+
+                        <table class="table table-bordered table-striped">
+                            <thead class="table-dark">
                                 <tr>
                                     <th>Mã Đơn</th>
                                     <th>Người Mua</th>
@@ -498,20 +499,23 @@
                             </thead>
                             <tbody>
                                 <tr th:each="order : ${ordersWithDetails}">
-                                    <td th:text="${order.orderId}"></td>
-                                    <td th:text="${order.fullName}"></td>
-                                    <td th:text="${#dates.format(order.orderDate, 'dd/MM/yyyy HH:mm')}"></td>
+                                    <td th:text="${order.orderId}">1</td>
+                                    <td th:text="${order.fullName}">Nguyễn Văn A</td>
+                                    <td th:text="${#dates.format(order.orderDate, 'dd/MM/yyyy HH:mm')}">13/07/2025 15:30
+                                    </td>
                                     <td
                                         th:text="${#numbers.formatDecimal(order.totalAmount, 0, 'COMMA', '.', '') + ' đ'}">
-                                    </td>
+                                        1.200.000 đ</td>
                                     <td>
-                                        <ul>
-                                            <li th:each="p : ${order.productNames}" th:text="${p}"></li>
+                                        <ul class="mb-0 ps-3">
+                                            <li th:each="product : ${order.productNames}" th:text="${product}">Tên sản
+                                                phẩm</li>
                                         </ul>
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
+
 
                         <!-- Recent orders end-->
 

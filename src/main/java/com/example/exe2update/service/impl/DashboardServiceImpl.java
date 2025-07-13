@@ -66,7 +66,7 @@ public class DashboardServiceImpl implements DashboardService {
 
     @Override
     public List<OrderWithDetailsDTO> getOrdersWithProductDetails() {
-        List<Order> orders = orderRepository.findAll(Sort.by(Sort.Direction.DESC, "orderDate"));
+        List<Order> orders = orderRepository.findAllByOrderByOrderDateDesc();
 
         return orders.stream().map(order -> {
             List<String> productNames = order.getOrderDetails().stream()
