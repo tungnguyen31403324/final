@@ -1,6 +1,7 @@
 package com.example.exe2update.service.impl;
 
 import com.example.exe2update.dto.OrderWithDetailsDTO;
+import com.example.exe2update.dto.ProductInOrderDTO;
 import com.example.exe2update.entity.Order;
 import com.example.exe2update.repository.*;
 import com.example.exe2update.service.DashboardService;
@@ -69,16 +70,19 @@ public class DashboardServiceImpl implements DashboardService {
         List<Order> orders = orderRepository.findAllByOrderByOrderDateDesc();
 
         return orders.stream().map(order -> {
-            List<String> productNames = order.getOrderDetails().stream()
-                    .map(od -> od.getProduct().getName())
-                    .toList();
+            List<ProductInOrderDTO> products = order.getOrderDetails().stream().map(od -> {
+                return new ProductInOrderDTO(
+                        od.getProduct().getName(),
+                        od.getPrice(),
+                        od.getQuantity());
+            }).toList();
 
             return new OrderWithDetailsDTO(
                     order.getOrderId(),
                     order.getFullName(),
                     order.getTotalAmount(),
                     order.getOrderDate(),
-                    productNames);
+                    products);
         }).toList();
     }
 

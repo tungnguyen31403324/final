@@ -499,20 +499,24 @@
                             </thead>
                             <tbody>
                                 <tr th:each="order : ${ordersWithDetails}">
-                                    <td th:text="${order.orderId}">1</td>
-                                    <td th:text="${order.fullName}">Nguyễn Văn A</td>
-                                    <td th:text="${#dates.format(order.orderDate, 'dd/MM/yyyy HH:mm')}">13/07/2025 15:30
-                                    </td>
+                                    <td th:text="${order.orderId}"></td>
+                                    <td th:text="${order.fullName}"></td>
+                                    <td th:text="${#dates.format(order.orderDate, 'dd/MM/yyyy HH:mm')}"></td>
                                     <td
                                         th:text="${#numbers.formatDecimal(order.totalAmount, 0, 'COMMA', '.', '') + ' đ'}">
-                                        1.200.000 đ</td>
+                                    </td>
                                     <td>
                                         <ul class="mb-0 ps-3">
-                                            <li th:each="product : ${order.productNames}" th:text="${product}">Tên sản
-                                                phẩm</li>
+                                            <li th:each="p : ${order.products}">
+                                                <span th:text="${p.productName}"></span> -
+                                                <span th:text="${p.quantity}"></span> x
+                                                <span
+                                                    th:text="${#numbers.formatDecimal(p.price, 0, 'COMMA', '.', '') + ' đ'}"></span>
+                                            </li>
                                         </ul>
                                     </td>
                                 </tr>
+
                             </tbody>
                         </table>
 
