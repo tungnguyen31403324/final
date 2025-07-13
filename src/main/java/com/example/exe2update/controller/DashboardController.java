@@ -1,5 +1,6 @@
 package com.example.exe2update.controller;
 
+import com.example.exe2update.dto.OrderWithDetailsDTO;
 import com.example.exe2update.entity.Order;
 import com.example.exe2update.service.DashboardService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -40,6 +41,8 @@ public class DashboardController {
         String username = authentication.getName();
         Map<String, Long> revenueByMonth = dashboardService.getRevenueByMonth(1, 12, 2025);
         model.addAttribute("revenueByMonth", revenueByMonth);
+        List<OrderWithDetailsDTO> ordersWithDetails = dashboardService.getOrdersWithProductDetails();
+        model.addAttribute("ordersWithDetails", ordersWithDetails);
 
         // Convert Map sang JSON String
         ObjectMapper mapper = new ObjectMapper();

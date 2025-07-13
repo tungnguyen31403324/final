@@ -484,8 +484,36 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- Recent orders end-->
 
+                        <h3>🧾 Danh sách đơn hàng và sản phẩm đã mua</h3>
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Mã Đơn</th>
+                                    <th>Người Mua</th>
+                                    <th>Ngày Đặt</th>
+                                    <th>Tổng Tiền</th>
+                                    <th>Sản Phẩm</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="order : ${ordersWithDetails}">
+                                    <td th:text="${order.orderId}"></td>
+                                    <td th:text="${order.fullName}"></td>
+                                    <td th:text="${#dates.format(order.orderDate, 'dd/MM/yyyy HH:mm')}"></td>
+                                    <td
+                                        th:text="${#numbers.formatDecimal(order.totalAmount, 0, 'COMMA', '.', '') + ' đ'}">
+                                    </td>
+                                    <td>
+                                        <ul>
+                                            <li th:each="p : ${order.productNames}" th:text="${p}"></li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <!-- Recent orders end-->
 
 
                     </div>

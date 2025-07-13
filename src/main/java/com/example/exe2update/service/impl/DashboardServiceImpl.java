@@ -1,5 +1,6 @@
 package com.example.exe2update.service.impl;
 
+import com.example.exe2update.dto.OrderWithDetailsDTO;
 import com.example.exe2update.entity.Order;
 import com.example.exe2update.repository.*;
 import com.example.exe2update.service.DashboardService;
@@ -61,6 +62,24 @@ public class DashboardServiceImpl implements DashboardService {
         symbols.setGroupingSeparator('.');
         DecimalFormat formatter = new DecimalFormat("#,###", symbols);
         return formatter.format(value) + " VNĐ";
+    }
+
+    @Override
+    public List<OrderWithDetailsDTO> getOrdersWithProductDetails() {
+        List<Order> orders = orderRepository.findAll(Sort.by(Sort.Direction.DESC, "orderDate"));
+
+        return orders.stream().map(order -> {
+            List<String> productNames = order.getOrderDetails().stream()
+                    .map(od -> od.getProduct().getName())
+                    .toList();
+
+            return new OrderWithDetailsDTO(
+                    order.getOrderId(),
+                    order.getFullName(),
+                    order.getTotalAmount(),
+                    order.getOrderDate(),
+                    productNames);
+        }).toList();
     }
 
     @Override
