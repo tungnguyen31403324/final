@@ -22,12 +22,54 @@ public class DataInitializer {
         private final UserRepository userRepository;
         private final RoleRepository roleRepository;
         private final PasswordEncoder passwordEncoder;
+        private final OrderRepository orderRepository;
 
         @PostConstruct
         public void init() {
                 seedCategoriesAndProductsIfNeeded();
                 seedArticlesIfNeeded();
                 seedUserAccountsIfNeeded();
+                seedOrdersIfNeeded();
+
+        }
+
+        private void seedOrdersIfNeeded() {
+                if (userRepository.count() >= 10 && orderRepository.count() == 0) {
+                        seedOrders();
+                        System.out.println("🌱 Đã seed 9 đơn hàng mẫu");
+                } else {
+                        System.out.println("🌱 Orders đã tồn tại – skip");
+                }
+        }
+
+        private void seedOrders() {
+                List<User> users = userRepository.findAll()
+                                .stream()
+                                .filter(u -> u.getUsername().startsWith("user"))
+                                .sorted((u1, u2) -> u1.getUserId().compareTo(u2.getUserId()))
+                                .limit(9)
+                                .toList();
+
+                BigDecimal[] totals = {
+                                bd("350000"), bd("180000"), bd("345000"), bd("1130000"),
+                                bd("750000"), bd("180000"), bd("1150000"), bd("1100000"), bd("160000")
+                };
+
+                for (int i = 0; i < users.size(); i++) {
+                        User user = users.get(i);
+                        Order order = Order.builder()
+                                        .user(user)
+                                        .orderDate(LocalDateTime.now().minusDays(i)) // mỗi đơn cách nhau 1 ngày
+                                        .totalAmount(totals[i])
+                                        .paymentMethod("COD")
+                                        .status(OrderStatus.Completed)
+                                        .fullName(user.getFullName())
+                                        .address(user.getAddress())
+                                        .build();
+
+                        orderRepository.save(order);
+                        System.out.println("   ➜ Created order for user: " + user.getUsername());
+                }
         }
 
         /* ---------------- SEED CATEGORY & PRODUCT ---------------- */
@@ -173,6 +215,39 @@ public class DataInitializer {
 
                 createUser("Admin User", "admin@example.com", "admin123", "admin", adminRole);
                 createUser("Regular User", "user@example.com", "user123", "user", userRole);
+                seedFakeUsers(userRole);
+        }
+
+        private void seedFakeUsers(Role userRole) {
+                String[] names = {
+                                "Nguyễn Văn An", "Trần Thị Bình", "Lê Văn Cường", "Phạm Thị Duyên",
+                                "Hoàng Văn Em", "Đặng Thị Hồng", "Bùi Văn Giang", "Vũ Thị Hạnh",
+                                "Ngô Văn Khang"
+                };
+
+                String[] cities = {
+                                "Hà Nội", "Hải Phòng", "Bắc Ninh", "Thái Bình", "Hà Nam",
+                                "Nam Định", "Hưng Yên", "Lạng Sơn", "Ninh Bình"
+                };
+
+                for (int i = 0; i < names.length; i++) {
+                        User user = new User();
+                        user.setFullName(names[i]);
+                        user.setEmail("user" + (i + 1) + "@example.com");
+                        user.setPasswordHash(passwordEncoder
+                                        .encode("$2a$10$w.q6K5CJ4LrJhqRo6nww..swpAg8128y8XDWWhSCBq49MNpbnHq6S")); // password
+                                                                                                                  // mã
+                                                                                                                  // hóa
+                        user.setUsername("user" + (i + 1));
+                        user.setPhone("09" + String.format("%08d", (int) (Math.random() * 100000000)));
+                        user.setAddress(cities[i] + ", Việt Nam");
+                        user.setCreatedAt(LocalDateTime.now());
+                        user.setStatus(true);
+                        user.setRole(userRole);
+
+                        userRepository.save(user);
+                        System.out.println("   ➜ Created fake user: " + user.getUsername());
+                }
         }
 
         private void createUser(String fullName, String email, String password, String username, Role role) {
